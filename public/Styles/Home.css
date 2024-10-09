@@ -1,0 +1,61 @@
+.parent {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: 10px;
+}
+
+.div1,
+.div2 {
+    height: 80%;
+    margin-top: 10%;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    background-color: #2e2e2d;
+    align-items: center;
+    border-radius: 30px;
+    margin-inline-start: 10%;
+    margin-inline-end: 10%;
+    font-size: 40px;
+}
+
+.div1 a,
+.div2 a {
+    color: white;
+}
+
+.div1 a:hover,
+.div2 a:hover {
+    font-size: 42px;
+    color: #fd7e14;
+}
+
+.title {
+    margin-top: 2%;
+    display: flex;
+    justify-content: center;
+}
+
+.title-text {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 60px;
+    color: #fd7e14;
+}
+
+.webSite-LinkContainer {
+    margin-top: 100px !important;
+    background-color: #fd7e14;
+    padding: 15px;
+}
+
+.webSite-Link {
+    font-size: 25px;
+    color: white;
+}
+
+.iconContainer {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
