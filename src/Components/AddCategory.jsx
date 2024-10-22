@@ -1,11 +1,17 @@
 import { useState } from "react"
+import UploadImages from './UploadImages';
 
 function AddCategory() {
 
     const [categoryName, setCategoryName] = useState('');
+    // const [categoryImage, setCategoryImage] = useState('');
     const [categoryImage, setCategoryImage] = useState('');
     const [categoryTag, setCategoryTag] = useState('');
     const [categoryComment, setCategoryComment] = useState('');
+
+    const handleImageUrl = (url) => {
+        setCategoryImage(url);
+      };
 
     const data = {
         categoryName : categoryName,
@@ -18,7 +24,7 @@ function AddCategory() {
         e.preventDefault(); // Prevenir recarga de página
     
         // Crear el objeto con los datos a enviar
-        console.log(data)
+        // console.log(data)
     
         // Hacer la solicitud POST al servidor
         try {
@@ -34,8 +40,8 @@ function AddCategory() {
             throw new Error('Error al enviar el post');
           }
     
-          const responseData  = await response.json(); // Obtener la respuesta en formato JSON
-          console.log('Post creado:', responseData );
+        //   const responseData  = await response.json(); // Obtener la respuesta en formato JSON
+        //   console.log('Post creado:', responseData );
           // Puedes actualizar el estado o mostrar un mensaje de éxito aquí
         } catch (error) {
           console.error('Error:', error);
@@ -58,13 +64,13 @@ function AddCategory() {
                         <div className="mail_section_1">
                             <input type="text" className="mail_text" placeholder="Nombre de la categoria" name="CategoryName" onChange={(e) => {
                                 setCategoryName(e.target.value)
-                            }} />
-                            <input type="text" className="mail_text" placeholder="Imagen" name="CategoryImage" onChange={(e) => {
-                                setCategoryImage(e.target.value)
-                            }} />
-                            <input type="text" className="mail_text" placeholder="Tag" name="CategoryTag" onChange={(e) => {
                                 setCategoryTag(e.target.value.toUpperCase())
                             }} />
+                            <UploadImages onImageUpload={handleImageUrl} />
+                            {/* <input type="text" className="mail_text" placeholder="Imagen" name="CategoryImage" onChange={(e) => {
+                                setCategoryImage(e.target.value)
+                            }} /> */}
+                            <input type="text" className="mail_text" placeholder={categoryTag} name="CategoryTag" readOnly/>
                             <textarea className="massage-bt" placeholder="Comentario" rows="5" id="comment" name="CategoryComment" onChange={(e) => {
                                 setCategoryComment(e.target.value)
                             }} ></textarea>

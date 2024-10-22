@@ -1,18 +1,39 @@
 import { useState, useEffect } from 'react';
 import '../../public/Styles/App.css'
+import UploadImages from './UploadImages';
+import UploadManyImages from './UploadManyImages';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content';
+
 function AddProduct() {
+
+    const MySwal = withReactContent(Swal)
 
     const [productName, setProductName] = useState('');
     const [productPrice, setProductPrice] = useState(0);
     const [productTag, setProductTag] = useState('');
     const [productColors, setProductColors] = useState([]);  // Array para colores
+    const [ProductSizes, setProductSizes] = useState([]);
     const [productSummary, setProductSummary] = useState('');
     const [productDescription, setProductDescription] = useState('');
-    const [productImages, setProductImages] = useState([]);  // Array para imágenes
+    // const [productMainImage, setproductMainImage] = useState();
+    const [productMainImage, setproductMainImage] = useState();
+    const [productImages, setProductImages] = useState([]);
+    // const [productImages, setProductImages] = useState([]);  // Array para imágenes
     const [productStock, setProductStock] = useState(0);  // Inicia con valor 0
     const [productOffer, setProductOffer] = useState(false);  // Booleano con valor por defecto false
     const [productDiscount, setProductDiscount] = useState(0);  // Descuento con valor por defecto 0
     const [productCategory, setProductCategory] = useState('');  // ID de la categoría (puedes cambiar a null si lo prefieres)
+
+    // const [imageUrl, setImageUrl] = useState(null);
+    
+    const handleImageUrl = (url) => {
+        setproductMainImage(url);
+      };
+
+      const handleImageUrls = (urls) => {
+        setProductImages(urls);
+      };
     
     // const [categories, setCategories] = useState([]);
     const [datacategories, setDataCategories] = useState([])
@@ -27,7 +48,6 @@ function AddProduct() {
             const response = await fetch(url)
             const result = await response.json()
             setDataCategories(result)
-            console.log(datacategories)
         }
         catch (error){
             console.error(error)
@@ -39,8 +59,10 @@ function AddProduct() {
         productPrice : productPrice,
         productTag : productTag,
         productColors : productColors,
+        ProductSizes : ProductSizes,
         productSummary : productSummary,
         productDescription : productDescription,
+        productMainImage : productMainImage,
         productImages : productImages,
         productStock : productStock,
         productOffer : productOffer,
@@ -50,7 +72,17 @@ function AddProduct() {
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevenir recarga de página
-    
+
+        MySwal.fire({
+            title: "El Producto fue guardado satisfactoriamente",
+            icon: "success",
+            confirmButtonText: "Aceptar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.replace("/products");
+            }
+          });
+
         // Crear el objeto con los datos a enviar
         console.log(data)
     
@@ -68,12 +100,14 @@ function AddProduct() {
             throw new Error('Error al enviar el post');
           }
     
-          const responseData  = await response.json(); // Obtener la respuesta en formato JSON
-          console.log('Post creado:', responseData );
+        //   const responseData  = await response.json(); // Obtener la respuesta en formato JSON
+        //   console.log('Post creado:', responseData );
           // Puedes actualizar el estado o mostrar un mensaje de éxito aquí
         } catch (error) {
           console.error('Error:', error);
         }
+
+          
       };
 
   return (
@@ -94,9 +128,12 @@ function AddProduct() {
                                 setProductName(e.target.value)
                                 setProductTag(e.target.value.toUpperCase())
                             }}/>
-                            <input type="text" className="mail_text" placeholder="Tag" name="ProductTag" readOnly/>
+                            <input type="text" className="mail_text" placeholder={productTag} name="ProductTag" readOnly/>
                             <input type="Number" className="mail_text" placeholder="Precio del Producto" name="ProductPrice" onChange={(e) => {
                                 setProductPrice(parseFloat(e.target.value))
+                            }} />
+                            <input type="text" className="mail_text" placeholder="Sizes disponibles del producto" name="ProductSizes" onChange={(e) => {
+                                setProductSizes(e.target.value.split(','));
                             }} />
                             <input type="text" className="mail_text" placeholder="Colores del producto" name="ProductColors" onChange={(e) => {
                                 setProductColors(e.target.value.split(','));
@@ -104,9 +141,16 @@ function AddProduct() {
                             <input type="text" className="mail_text" placeholder="Resumen del producto" name="ProductSummary" onChange={(e) => {
                                 setProductSummary(e.target.value)
                             }} />
-                            <input type="text" className="mail_text" placeholder="Imagen del producto" name="productImages" onChange={(e) => {
+                            <UploadImages onImageUpload={handleImageUrl} />
+
+                            {/* <input type="text" className="mail_text" placeholder="Imagen principal del producto" name="productMainImage" onChange={(e) => {
+                                setproductMainImage(e.target.value);
+                            }} /> */}
+
+                            <UploadManyImages onImagesUpload={handleImageUrls} />                            
+                            {/* <input type="text" className="mail_text" placeholder="Imagen del producto" name="productImages" onChange={(e) => {
                                 setProductImages(e.target.value.split(','));
-                            }} />
+                            }} /> */}
                             <input type="text" className="mail_text" placeholder="Descripcion detallada del producto" name="ProductDescription" onChange={(e) => {
                                 setProductDescription(e.target.value)
                             }} />

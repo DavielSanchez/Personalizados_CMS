@@ -1,24 +1,43 @@
 import { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
+import UploadImages from '../Components/UploadImages';
+import UploadManyImages from '../Components/UploadManyImages';
 
 function EditProduct() {
 
     const location = useLocation();
-    const { _id, productName, productTag, productImages, productPrice, productColor, 
+    const { _id, productName, productTag, productMainImage, productImages, productPrice, productSizes, productColor, 
     productSummary, productDescription, productStock, productOffer, productDiscount, productCategory, productComment } = location.state;
 
     const [newProductName, setProductName] = useState(`${productName}`);
     const [newProductPrice, setProductPrice] = useState(productPrice);
     const [newProductTag, setProductTag] = useState(`${productTag}`);
+    const [newProductSizes, setProductSizes] = useState(`${productSizes}`);
     const [newProductColors, setProductColors] = useState(productColor);
     const [newProductSummary, setProductSummary] = useState(`${productSummary}`);
     const [newProductDescription, setProductDescription] = useState(`${productDescription}`);
+    // const [newProductMainImage, setProductMainImage] = useState(`${productMainImage}`);
+    const [newProductMainImage, setProductMainImage] = useState(`${productMainImage}`);
     const [newProductImages, setProductImages] = useState(productImages);
+    // const [newProductImages, setProductImages] = useState(productImages);
     const [newProductStock, setProductStock] = useState(productStock);
     const [newProductOffer, setProductOffer] = useState(productOffer);
     const [newProductDiscount, setProductDiscount] = useState(productDiscount);
     const [newProductCategory, setProductCategory] = useState(`${productCategory}`);
     const [newProductComment, setProductComment] = useState(`${productComment}`);
+
+    const handleImageUrl = (url) => {
+      if(url == ''){ 
+        setProductMainImage(newProductMainImage)
+        // setProductMainImage(url)
+      }else{ setProductMainImage(url)}
+    };
+
+    const handleImageUrls = (urls) => {
+      if(url == ''){ 
+        setProductImages(newProductImages)
+      }else{ setProductImages(urls);}
+    };
 
     const [datacategories, setDataCategories] = useState([]);
     const url = `http://localhost:3000/categories`;
@@ -32,7 +51,6 @@ function EditProduct() {
             const response = await fetch(url);
             const result = await response.json();
             setDataCategories(result);
-            console.log(datacategories);
         }
         catch (error){
             console.error(error);
@@ -43,9 +61,11 @@ function EditProduct() {
         productName: newProductName,
         productPrice: newProductPrice,
         productTag: newProductTag,
+        productSizes: newProductSizes,
         productColors: newProductColors,
         productSummary: newProductSummary,
         productDescription: newProductDescription,
+        productMainImage: newProductMainImage,
         productImages: newProductImages,
         productStock: newProductStock,
         productOffer: newProductOffer,
@@ -72,6 +92,7 @@ function EditProduct() {
       
           const responseData = await response.json();
           console.log('Producto actualizado:', responseData);
+          console.log(data)
         } catch (error) {
           console.error('Error:', error);
         }
@@ -108,6 +129,13 @@ function EditProduct() {
                     setProductPrice(parseFloat(e.target.value));
                   }
                 }} />
+                <input type="text" className="mail_text" placeholder={productSizes} defaultValue={productSizes} name="ProductSizes" onChange={(e) => {
+                  if (e.target.value === '') {
+                    setProductSizes(newProductSizes);
+                  } else {
+                    setProductSizes(e.target.value.split(','));
+                  }
+                }} />
                 <input type="text" className="mail_text" placeholder={productColor} defaultValue={productColor} name="ProductColors" onChange={(e) => {
                   if (e.target.value === '') {
                     setProductColors(newProductColors);
@@ -122,13 +150,24 @@ function EditProduct() {
                     setProductSummary(e.target.value);
                   }
                 }} />
-                <input type="text" className="mail_text" placeholder={productImages} defaultValue={productImages} name="ProductImages" onChange={(e) => {
+
+                <UploadImages onImageUpload={handleImageUrl} />   
+                {/* <input type="text" className="mail_text" placeholder={productMainImage} defaultValue={productMainImage} name="ProductMainImage" onChange={(e) => {
+                  if (e.target.value === '') {
+                    setProductMainImage(newProductImages);
+                  } else {
+                    setProductMainImage(e.target.value);
+                  }
+                }} /> */}
+
+                <UploadManyImages onImagesUpload={handleImageUrls}/>
+                {/* <input type="text" className="mail_text" placeholder={productImages} defaultValue={productImages} name="ProductImages" onChange={(e) => {
                   if (e.target.value === '') {
                     setProductImages(newProductImages);
                   } else {
                     setProductImages(e.target.value.split(','));
                   }
-                }} />
+                }} /> */}
                 <input type="text" className="mail_text" placeholder={productDescription} defaultValue={productDescription} name="ProductDescription" onChange={(e) => {
                   if (e.target.value === '') {
                     setProductDescription(newProductDescription);

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useLocation } from 'react-router-dom';
+import UploadImages from '../Components/UploadImages';
 
 
 function EditCategory() {
@@ -8,9 +9,17 @@ function EditCategory() {
     const { _id, categoryName, categoryTag, categoryImage, categoryComment } = location.state
 
     const [newCategoryName, setCategoryName] = useState(`${categoryName}`);
+    // const [newCategoryImage, setCategoryImage] = useState(`${categoryImage}`);
     const [newCategoryImage, setCategoryImage] = useState(`${categoryImage}`);
     const [newCategoryTag, setCategoryTag] = useState(`${categoryTag}`);
     const [newCategoryComment, setCategoryComment] = useState(`${categoryComment}`);
+
+    const handleImageUrl = (url) => {
+        if(url == ''){ 
+            setCategoryImage(newCategoryImage)
+            // setCategoryImage(url)
+        }else{ setCategoryImage(url)}
+      };
 
     const data = {
         categoryName : newCategoryName,
@@ -23,7 +32,6 @@ function EditCategory() {
         e.preventDefault(); // Prevenir recarga de página
       
         // Crear el objeto con los datos a enviar
-        console.log(data);
       
         // Hacer la solicitud PUT al servidor
         try {
@@ -69,11 +77,14 @@ function EditCategory() {
                                 setCategoryTag(e.target.value.toUpperCase())}
                             }} />
                             <input type="text" className="mail_text" placeholder={categoryTag} defaultValue={categoryTag} name="CategoryTag" />
-                            <input type="text" className="mail_text" placeholder={categoryImage} defaultValue={categoryImage} name="CategoryImage" onChange={(e) => {
+                            
+                            <UploadImages onImageUpload={handleImageUrl} />
+
+                            {/* <input type="text" className="mail_text" placeholder={categoryImage} defaultValue={categoryImage} name="CategoryImage" onChange={(e) => {
                                 if(e.target.value == ''){ 
                                     setCategoryImage(newCategoryImage)
                                 }else{ setCategoryImage(e.target.value)}
-                            }} />
+                            }} /> */}
                             
                             <textarea className="massage-bt" placeholder={categoryComment} defaultValue={categoryComment} rows="5" id="comment" name="CategoryComment" onChange={(e) => {
                                 if(e.target.value == ''){ 
