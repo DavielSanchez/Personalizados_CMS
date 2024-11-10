@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function ShowCategories() {
 
     const [categories, setCategories] = useState([])
-    const url = 'http://localhost:3000/categories'
+    const url = `${import.meta.env.VITE_API_LINK}/categories`
 
     useEffect(() => {
         fetchData();

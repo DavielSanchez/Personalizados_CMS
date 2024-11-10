@@ -28,7 +28,7 @@ function AddCategory() {
     
         // Hacer la solicitud POST al servidor
         try {
-          const response = await fetch('http://localhost:3000/categories/add', {
+          const response = await fetch(`${import.meta.env.VITE_API_LINK}/categories/add`, {
             method: 'POST', // Especificar el método POST
             headers: {
               'Content-Type': 'application/json', // Especificar el tipo de contenido

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function ShowProducts() {
 
     const [categories, setCategories] = useState([])
-    const url = 'http://localhost:3000/Products'
+    const url = `${import.meta.env.VITE_API_LINK}/Products`
 
     useEffect(() => {
         fetchData();

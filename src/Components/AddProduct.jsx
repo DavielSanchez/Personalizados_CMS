@@ -37,7 +37,7 @@ function AddProduct() {
     
     // const [categories, setCategories] = useState([]);
     const [datacategories, setDataCategories] = useState([])
-    const url = `http://localhost:3000/categories`
+    const url = `${import.meta.env.VITE_API_LINK}/categories`
 
     useEffect(() => {
         fetchData();
@@ -88,7 +88,7 @@ function AddProduct() {
     
         // Hacer la solicitud POST al servidor
         try {
-          const response = await fetch('http://localhost:3000/products/add', {
+          const response = await fetch(`${import.meta.env.VITE_API_LINK}/products/add`, {
             method: 'POST', // Especificar el método POST
             headers: {
               'Content-Type': 'application/json', // Especificar el tipo de contenido

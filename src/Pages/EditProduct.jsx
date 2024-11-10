@@ -40,7 +40,7 @@ function EditProduct() {
     };
 
     const [datacategories, setDataCategories] = useState([]);
-    const url = `http://localhost:3000/categories`;
+    const url = `${import.meta.env.VITE_API_LINK}/categories`;
 
     useEffect(() => {
         fetchData();

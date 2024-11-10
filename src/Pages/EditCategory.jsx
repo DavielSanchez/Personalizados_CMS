@@ -35,7 +35,7 @@ function EditCategory() {
       
         // Hacer la solicitud PUT al servidor
         try {
-          const response = await fetch(`http://localhost:3000/categories/put/${_id}`, {
+          const response = await fetch(`${import.meta.env.VITE_API_LINK}/categories/put/${_id}`, {
             method: 'PUT', // Especificar el método PUT
             headers: {
               'Content-Type': 'application/json', // Especificar el tipo de contenido
