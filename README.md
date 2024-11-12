@@ -54,4 +54,8 @@ git clone https://github.com/tu-usuario/Personalizados-Web.git
 cd Personalizados-Web
 
 # Instala las dependencias
+<<<<<<< HEAD
 npm install
+=======
+npm install
+>>>>>>> 682092525036a84de7445a033e2fe9482c19ad0e
