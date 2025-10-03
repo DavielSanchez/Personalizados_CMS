@@ -27,5 +27,5 @@ jobs:
           username: ${{ secrets.FTP_USER_CMS }}
           password: ${{ secrets.FTP_PASS_CMS }}
           local-dir: ./dist/        # todo el repo (ajusta si solo quieres subir carpeta específica)
-          server-dir: /public_html/personalizadoscms/
+          server-dir: /personalizadoscms/
           dangerous-clean-slate: true
