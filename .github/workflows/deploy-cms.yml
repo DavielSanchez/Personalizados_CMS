@@ -1,0 +1,31 @@
+name: Deploy CMS to Hostinger
+
+on:
+  push:
+    branches: [main]  # se ejecuta solo con la rama main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Clonar repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2️⃣ (Opcional) Build si tu CMS necesita
+      - name: Install dependencies and build (optional)
+        run: |
+          npm install
+          npm run build  # si no tiene build, puedes eliminar este paso
+
+      # 3️⃣ Deploy vía FTP
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+        with:
+          server: ${{ secrets.FTP_HOST_CMS }}
+          username: ${{ secrets.FTP_USER_CMS }}
+          password: ${{ secrets.FTP_PASS_CMS }}
+          local-dir: ./dist/        # todo el repo (ajusta si solo quieres subir carpeta específica)
+          server-dir: /public_html/personalizadoscms/
+          dangerous-clean-slate: true
